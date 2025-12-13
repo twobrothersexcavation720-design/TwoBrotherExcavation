@@ -291,5 +291,49 @@
     <script src="components/footer.js"></script>
     <script src="script.js"></script>
     <script>feather.replace();</script>
+
+    <!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  // 🔐 Supabase config (REPLACE WITH YOUR REAL VALUES)
+  const SUPABASE_URL = "https://hfzcerdeopkqanhvmbml.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_TUa-lgZpKBMY7Gb46qaDWw_lUGmxC24";
+
+  const supabase = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
+
+  // 📩 Contact form handler
+  const contactForm = document.querySelector("form");
+
+  contactForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(contactForm);
+
+    // 🛑 Honeypot (optional but recommended)
+    if (formData.get("company")) return;
+
+    const { error } = await supabase
+      .from("contact_messages")
+      .insert([{
+        name: formData.get("name"),
+        email: formData.get("email"),
+        service: formData.get("service"),
+        address: formData.get("address"),
+        message: formData.get("message"),
+      }]);
+
+    if (error) {
+      console.error(error);
+      alert("Message failed. Please try again.");
+    } else {
+      alert("Message sent successfully!");
+      contactForm.reset();
+    }
+  });
+</script>
 </body>
 </html>
