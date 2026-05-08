@@ -297,8 +297,8 @@
 
 <script>
   // 🔐 Supabase config (REPLACE WITH YOUR REAL VALUES)
-  const SUPABASE_URL = "https://hfzcerdeopkqanhvmbml.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhmemNlcmRlb3BrcWFuaHZtYm1sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU2MDM0ODUsImV4cCI6MjA4MTE3OTQ4NX0.ZQu2QUlSKaMKXEC-4TjQy-dJxeP_5VejpNHpPosq_DI";
+  const SUPABASE_URL = "https://jypykzdrgujuohubsesd.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5cHlremRyZ3VqdW9odWJzZXNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyNzk2MjgsImV4cCI6MjA5Mzg1NTYyOH0.tldkYAxUl8nz-R5wv65j46XtVpg9EmtIpgGKYchpsTk";
 
   const supabase = window.supabase.createClient(
     SUPABASE_URL,
@@ -317,14 +317,17 @@
     if (formData.get("company")) return;
 
     const { error } = await supabase
-      .from("contact_messages")
-      .insert([{
-        name: formData.get("name"),
-        email: formData.get("email"),
-        service: formData.get("service"),
-        address: formData.get("address"),
-        message: formData.get("message"),
-      }]);
+  .from("messages")
+  .insert([{
+    first_name: formData.get("name")?.split(" ")[0] || "",
+    last_name: formData.get("name")?.split(" ").slice(1).join(" ") || "",
+    email: formData.get("email"),
+    service: formData.get("service"),
+    address: formData.get("address"),
+    message: formData.get("message"),
+    read: false,
+    archived: false
+  }]);
 
     if (error) {
       console.error(error);
