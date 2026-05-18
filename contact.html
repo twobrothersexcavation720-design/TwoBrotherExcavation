@@ -326,6 +326,23 @@
       console.error(error);
       alert("Message failed. Please try again.");
     } else {
+      // 🔔 Send email via edge function
+      try {
+        await fetch("https://jypykzdrgujuohubsesd.supabase.co/functions/v1/send-client-email", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formData.get("email"),
+            message: formData.get("message"),
+            clientName: formData.get("name"),
+          }),
+        });
+      } catch (err) {
+        console.error("Email send failed:", err);
+      }
+
       alert("Message sent successfully!");
       contactForm.reset();
     }
