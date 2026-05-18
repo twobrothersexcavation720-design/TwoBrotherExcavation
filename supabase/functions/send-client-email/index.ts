@@ -23,7 +23,7 @@ serve(async (req) => {
     console.log("Incoming request data:", { email, message, clientName });
 
     const data = await resend.emails.send({
-      from: "2Brothers <onboarding@resend.dev>",
+     from: "2Brothers <contact@twobrothersexcavation.com>",
       to: "ttopherr.r@gmail.com",
       subject: "New Contact Form Message Board",
       html: `
